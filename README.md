@@ -1,6 +1,6 @@
-# Lazy---Cat
+# Lazy Cat 
 Lazy Cat web App with video
-😺 Lazy Cat – Alpha
+😺 Lazy Cat  Alpha / lite + PNG
 A playful browser‑based cat companion that talks, shows your camera, lets you upload images, and even join video calls with friends. Designed to run smoothly on iPhone, iPad, and desktop browsers using GitHub Pages.
 
 🐾 Features
