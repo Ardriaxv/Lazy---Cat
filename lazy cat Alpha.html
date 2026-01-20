@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Wrapped Output</title>
+<style>
+  body[data-theme="night"] {
+    background:#020617; color:#e5e7eb;
+  }
+  body[data-theme="day"] {
+    background:#f9fafb; color:#111827;
+  }
+  .toggle { position:fixed; top:10px; right:10px; }
+</style>
+</head>
+<body data-theme="night">
+<div class="toggle">
+  <button onclick="document.body.dataset.theme='day'">Day +</button>
+  <button onclick="document.body.dataset.theme='night'">Night −</button>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lazy Cat Call a Friend – Alpha</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to top, #222, #444);
+      color: #fff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 2.5em;
+      color: #fcd34d;
+    }
+    #cat-container {
+      margin: 20px auto;
+      width: 320px;
+      height: 320px;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 4px solid #fcd34d;
+      background: #000;
+      position: relative;
+      transition: width 0.3s ease, height 0.3s ease;
+    }
+    #cat-container.big {
+      width: 90vw;
+      max-width: 900px;
+      height: 520px;
+    }
+    #cat-img, #cat-video, #jitsiFrame {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    #jitsiFrame {
+      border: 0;
+      background: #000;
+    }
+    #quote {
+      margin: 20px auto;
+      font-size: 1.2em;
+      padding: 10px;
+      max-width: 80%;
+      background: rgba(0,0,0,0.5);
+      border-radius: 10px;
+      min-height: 40px;
+    }
+    button, input[type="file"] {
+      margin: 6px 4px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9em;
+      cursor: pointer;
+      background: #fcd34d;
+      color: #222;
+    }
+    button:hover {
+      filter: brightness(1.05);
+    }
+    .category-buttons button {
+      background: #4ade80;
+    }
+    #upload-label {
+      display: inline-block;
+      padding: 8px 14px;
+      background: #60a5fa;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    .call-panel {
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 12px;
+      display: inline-block;
+    }
+    .call-panel input[type="text"] {
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.9em;
+      margin: 4px;
+      width: 200px;
+    }
+    .small-label {
+      font-size: 0.8em;
+      opacity: 0.8;
+    }
+    footer {
+      margin-top: 30px;
+      padding: 15px;
+      font-size: 0.8em;
+      color: #9ca3af;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>😺 Ask Lazy Cat & Call a Friend</h1>
+
+  <div id="cat-container">
+    <img id="cat-img" src="https://placekitten.com/400/400" alt="Lazy Cat" />
+    <video id="cat-video" autoplay muted loop></video>
+    <iframe id="jitsiFrame" allow="camera; microphone; fullscreen"></iframe>
+  </div>
+
+  <div>
+    <button onclick="toggleCamera()">🎥 Camera On/Off</button>
+    <label id="upload-label">🖼 Upload Cat Pic
+      <input type="file" id="imgUpload" accept="image/*">
+    </label>
+    <button onclick="toggleSize()">🔍 Small / Big</button>
+  </div>
+
+  <div class="call-panel">
+    <div class="small-label">Call a friend using a room name you both agree on.</div>
+    <input type="text" id="roomName" placeholder="e.g. LazyRoom123">
+    <button onclick="createRoom()">😺 Create Room</button>
+    <button onclick="joinRoom()">🐾 Join Room</button>
+    <button onclick="copyRoomLink()">📨 Copy Room Link</button>
+  </div>
+
+  <div class="category-buttons">
+    <button onclick="speakRandom('jokes')">😹 Tell a Joke</button>
+    <button onclick="speakRandom('prompts')">📓 Journal Prompt</button>
+    <button onclick="speakRandom('advice')">🧠 Lazy Wisdom</button>
+    <button onclick="stopSpeaking()">🛑 Stop</button>
+  </div>
+
+  <div id="quote">Click a button or start a call to hear from Lazy Cat...</div>
+
+  <footer>
+    &copy; 2026 D Hughson. All rights reserved.
+  </footer>
+
+  <script>
+    const catImg = document.getElementById('cat-img');
+    const catVideo = document.getElementById('cat-video');
+    const jitsiFrame = document.getElementById('jitsiFrame');
+    const quote = document.getElementById('quote');
+    const roomNameInput = document.getElementById('roomName');
+    const catContainer = document.getElementById('cat-container');
+    let usingCamera = false;
+    let bigMode = false;
+
+    const responses = {
+      jokes: [
+        "Why don't cats play poker in space? Too many cheetahs!",
+        "I was going to do something... but I napped instead.",
+        "You think I'm lazy? I call it energy-efficient.",
+        "This universe has too much gravity. I’m staying down.",
+        "Ever see a cat write code? Exactly. I'm supervising."
+      ],
+      prompts: [
+        "Write about the silliest planet you can imagine.",
+        "Describe your dream space-pet.",
+        "Invent a snack for aliens — what's it taste like?",
+        "If you were a cat in space, what would your mission be?",
+        "Draw or describe your perfect napping station."
+      ],
+      advice: [
+        "Never skip snacks. Or naps.",
+        "If it's hard, sleep on it. Literally.",
+        "Always look at stars. Then go back inside and nap.",
+        "Eat, nap, wonder. Repeat.",
+        "If you can't solve it, bat it off the table."
+      ]
+    };
+
+    const synth = window.speechSynthesis;
+
+    function speakRandom(category) {
+      if (!responses[category]) return;
+      const list = responses[category];
+      const index = Math.floor(Math.random() * list.length);
+      const message = list[index];
+      quote.textContent = message;
+
+      if (synth.speaking) synth.cancel();
+      const utter = new SpeechSynthesisUtterance(message);
+      synth.speak(utter);
+    }
+
+    function stopSpeaking() {
+      synth.cancel();
+      quote.textContent = "🛑 Speech stopped.";
+    }
+
+    function toggleCamera() {
+      // If a call is active, ignore camera toggle
+      if (jitsiFrame.style.display === "block") {
+        alert("End the call to use the camera.");
+        return;
+      }
+
+      if (!usingCamera) {
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+          catVideo.srcObject = stream;
+          catVideo.style.display = "block";
+          catImg.style.display = "none";
+          usingCamera = true;
+          quote.textContent = "🎥 Camera is on. Say cheese!";
+        }).catch(err => alert("Camera error: " + err));
+      } else {
+        if (catVideo.srcObject) {
+          catVideo.srcObject.getTracks().forEach(track => track.stop());
+        }
+        catVideo.style.display = "none";
+        catImg.style.display = "block";
+        usingCamera = false;
+        quote.textContent = "Camera off. Back to nap mode.";
+      }
+    }
+
+    document.getElementById('imgUpload').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          catImg.src = evt.target.result;
+          catImg.style.display = "block";
+          catVideo.style.display = "none";
+          jitsiFrame.style.display = "none";
+          usingCamera = false;
+          quote.textContent = "Nice picture! Lazy Cat approves.";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function getRoomName() {
+      let name = roomNameInput.value.trim();
+      if (!name) {
+        // Simple random default if none given
+        name = "LazyCatRoom-" + Math.floor(Math.random() * 100000);
+        roomNameInput.value = name;
+      }
+      return name;
+    }
+
+    function showJitsiRoom(roomName) {
+      // Stop camera if on
+      if (usingCamera && catVideo.srcObject) {
+        catVideo.srcObject.getTracks().forEach(track => track.stop());
+      }
+      usingCamera = false;
+
+      catImg.style.display = "none";
+      catVideo.style.display = "none";
+      jitsiFrame.style.display = "block";
+
+      const url = "https://meet.jit.si/" + encodeURIComponent(roomName);
+      jitsiFrame.src = url;
+
+      quote.textContent = `Connecting to room "${roomName}". Share this room name with your friend.`;
+    }
+
+    function createRoom() {
+      const name = getRoomName();
+      showJitsiRoom(name);
+    }
+
+    function joinRoom() {
+      const name = getRoomName();
+      showJitsiRoom(name);
+    }
+
+    function copyRoomLink() {
+      const name = getRoomName();
+      const link = "https://meet.jit.si/" + encodeURIComponent(name);
+      navigator.clipboard.writeText(link).then(() => {
+        quote.textContent = `Link copied! Send this to your friend: ${link}`;
+      }).catch(() => {
+        quote.textContent = `Here is your link: ${link}`;
+      });
+    }
+
+    function toggleSize() {
+      bigMode = !bigMode;
+      if (bigMode) {
+        catContainer.classList.add("big");
+        quote.textContent = "🔍 Big view on.";
+      } else {
+        catContainer.classList.remove("big");
+        quote.textContent = "🔎 Small view on.";
+      }
+    }
+
+    // Start with image shown
+    catImg.style.display = "block";
+  </script>
+</body>
+</html>
+
+</body>
+</html>

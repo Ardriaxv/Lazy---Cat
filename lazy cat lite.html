@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lazy Cat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Apple-friendly -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(to top, #1e293b, #334155);
+      color: #f8fafc;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 16px 0 8px;
+      color: #fde047;
+      font-size: 2.2rem;
+    }
+
+    #cat-box {
+      margin: 16px auto;
+      width: 300px;
+      height: 300px;
+      border-radius: 24px;
+      border: 4px solid #fde047;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #cat-img, #cat-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    #quote {
+      margin: 16px auto;
+      padding: 12px;
+      max-width: 85%;
+      background: rgba(0,0,0,0.4);
+      border-radius: 16px;
+      font-size: 1.1rem;
+      min-height: 48px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 12px;
+    }
+
+    button {
+      padding: 12px 18px;
+      font-size: 1rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      background: #fde047;
+      color: #1f2937;
+    }
+
+    button.secondary {
+      background: #4ade80;
+    }
+
+    button.stop {
+      background: #f87171;
+      color: #fff;
+    }
+
+    footer {
+      margin: 20px 0;
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>😺 Lazy Cat</h1>
+
+  <div id="cat-box">
+    <img id="cat-img" src="https://placekitten.com/400/400" alt="Lazy Cat">
+    <video id="cat-video" autoplay muted playsinline></video>
+  </div>
+
+  <div id="quote">Tap a button. Lazy Cat is awake… sort of.</div>
+
+  <div class="buttons">
+    <button onclick="speak()">😺 Talk</button>
+    <button class="secondary" onclick="surprise()">🎲 Surprise</button>
+    <button class="secondary" onclick="toggleCamera()">🎥 Camera</button>
+    <button onclick="callFriend()">📞 Call</button>
+    <button class="stop" onclick="stopAll()">🛑 Stop</button>
+  </div>
+
+  <footer>
+    Lazy Cat • Combo Edition 🐾
+  </footer>
+
+  <script>
+    const quotes = [
+      "I was going to do something… then I rested.",
+      "Big plans today. Mostly naps.",
+      "You’re doing great. Probably.",
+      "If it’s hard, nap first.",
+      "Approved. By me. The cat."
+    ];
+
+    const catImg = document.getElementById("cat-img");
+    const catVideo = document.getElementById("cat-video");
+    const quoteBox = document.getElementById("quote");
+    const synth = window.speechSynthesis;
+    let usingCamera = false;
+
+    catImg.style.display = "block";
+
+    function speak() {
+      const text = randomQuote();
+      say(text);
+    }
+
+    function surprise() {
+      say(randomQuote());
+    }
+
+    function randomQuote() {
+      return quotes[Math.floor(Math.random() * quotes.length)];
+    }
+
+    function say(text) {
+      quoteBox.textContent = text;
+      synth.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      synth.speak(utter);
+    }
+
+    function stopAll() {
+      synth.cancel();
+      quoteBox.textContent = "Lazy Cat is resting now 😴";
+      if (usingCamera && catVideo.srcObject) {
+        catVideo.srcObject.getTracks().forEach(t => t.stop());
+      }
+      catVideo.style.display = "none";
+      catImg.style.display = "block";
+      usingCamera = false;
+    }
+
+    function toggleCamera() {
+      if (!usingCamera) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            catVideo.srcObject = stream;
+            catVideo.style.display = "block";
+            catImg.style.display = "none";
+            usingCamera = true;
+            quoteBox.textContent = "Say cheese 😺";
+          })
+          .catch(() => {
+            quoteBox.textContent = "Camera not available.";
+          });
+      } else {
+        stopAll();
+      }
+    }
+
+    function callFriend() {
+      const room = "LazyCat-" + Math.floor(Math.random() * 100000);
+      const link = "https://meet.jit.si/" + room;
+      window.open(link, "_blank");
+      quoteBox.textContent = "Share the room with your friend 🐾";
+    }
+  </script>
+</body>
+</html>
