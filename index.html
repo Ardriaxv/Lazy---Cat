@@ -1,29 +1,27 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Wrapped Output</title>
-<style>
-  body[data-theme="night"] {
-    background:#020617; color:#e5e7eb;
-  }
-  body[data-theme="day"] {
-    background:#f9fafb; color:#111827;
-  }
-  .toggle { position:fixed; top:10px; right:10px; }
-</style>
-</head>
-<body data-theme="night">
-<div class="toggle">
-  <button onclick="document.body.dataset.theme='day'">Day +</button>
-  <button onclick="document.body.dataset.theme='night'">Night −</button>
-</div>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Lazy Cat Call a Friend – Alpha</title>
+
   <style>
+    /* Night/Day Theme */
+    body[data-theme="night"] {
+      background:#020617;
+      color:#e5e7eb;
+    }
+    body[data-theme="day"] {
+      background:#f9fafb;
+      color:#111827;
+    }
+    .toggle {
+      position:fixed;
+      top:10px;
+      right:10px;
+      z-index:9999;
+    }
+
+    /* Lazy Cat Styles */
     body {
       font-family: 'Comic Sans MS', cursive, sans-serif;
       background: linear-gradient(to top, #222, #444);
@@ -127,12 +125,18 @@
     }
   </style>
 </head>
-<body>
 
-  <h1>😺 Ask Lazy Cat & Call a Friend</h1>
+<body data-theme="night">
 
+<div class="toggle">
+  <button onclick="document.body.dataset.theme='day'">Day +</button>
+  <button onclick="document.body.dataset.theme='night'">Night −</button>
+</div>
+
+<h1>😺 Ask Lazy Cat & Call a Friend</h1>
+  
   <div id="cat-container">
-    <img id="cat-img" src="lazy cat eg.png/400/400" alt="Lazy Cat" />
+    <img id="cat-img" src="lazy cat eg.png" alt="Lazy Cat" />
     <video id="cat-video" autoplay muted loop></video>
     <iframe id="jitsiFrame" allow="camera; microphone; fullscreen"></iframe>
   </div>
