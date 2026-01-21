@@ -36,3 +36,5 @@ Upload your own cat picture if you want a custom look.
 Enter a room name and start a call with a friend.
 
 Add the page to your home screen for an app‑like experience.
+
+© 2026 D. Hughson. All rights reserved.
