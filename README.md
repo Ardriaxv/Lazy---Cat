@@ -1,3 +1,5 @@
+[![View Site](https://img.shields.io/badge/Live_Site-Visit-blue)](https://ardriaxv.github.io/Lazy---Cat/)
+
 # Lazy Cat 
 Lazy Cat web App with video
 😺 Lazy Cat  Alpha / lite + PNG
