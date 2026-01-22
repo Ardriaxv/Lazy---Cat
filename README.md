@@ -5,7 +5,7 @@ Lazy Cat web App with video
 😺 Lazy Cat  Alpha / lite + PNG
 A playful browser based cat companion that talks, shows your camera, lets you upload images, and even join video calls with friends. Designed to run smoothly on iPhone, iPad, and desktop browsers using GitHub Pages.
 
-🐾 Features
+Features
 Talking Cat  
 Tap a button and Lazy Cat speaks jokes, prompts, or advice using your device’s speech engine.
 
@@ -21,10 +21,10 @@ Toggle between small and large display modes.
 Video Calling  
 Enter a room name and instantly join a Jitsi video call inside the page.
 
-Mobile‑Friendly  
+Mobile Friendly  
 Works on iPhone and iPad, including “Add to Home Screen” full‑screen mode.
 
-📱 How to Use
+How to Use
 Open the site in your browser (Safari recommended on iOS).
 
 Tap any button to wake Lazy Cat.
